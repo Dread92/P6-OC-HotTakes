@@ -1,0 +1,19 @@
+{
+  "name": "hottakes",
+  "version": "1.0.0",
+  "description": "Projet numéro 6 du parcours dev web jr de l'organisme OpenClassrooms",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dread92/P6-HotTakes.git"
+  },
+  "author": "Guillaume B",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dread92/P6-HotTakes/issues"
+  },
+  "homepage": "https://github.com/Dread92/P6-HotTakes#readme"
+}
