@@ -4,12 +4,12 @@ module.exports = app;
 const mongoose = require('mongoose'); // on installe mongoose pour notre base de données.
 //avec ceci, Express prend toutes les requêtes qui ont comme Content-Type  application/json  et met à disposition leur  body  directement sur l'objet req, ce qui nous permet d'écrire le middleware POST suivant :
 app.use(express.json());
+require('dotenv').config();
 
 //Connexion à MongoDB
 const password= process.env.DB_PASSWORD // on passe le password présent dans env pour éviter qu'il soit visible
 const username = process.env.DB_USERNAME // on passe également le user name depuis le fichier .env
 const databasename= process.env.DB_DATABASENAME
-
 mongoose.connect(`mongodb+srv://${username}:${password}@${databasename}/?retryWrites=true&w=majority` ,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
