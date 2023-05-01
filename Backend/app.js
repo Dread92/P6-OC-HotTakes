@@ -5,6 +5,7 @@ const mongoose = require('mongoose'); // on installe mongoose pour notre base de
 //avec ceci, Express prend toutes les requêtes qui ont comme Content-Type  application/json  et met à disposition leur  body  directement sur l'objet req, ce qui nous permet d'écrire le middleware POST suivant :
 app.use(express.json());
 require('dotenv').config();
+const Sauce = require('./models/Sauce.js');
 
 //Connexion à MongoDB
 const password= process.env.DB_PASSWORD // on passe le password présent dans env pour éviter qu'il soit visible
@@ -34,11 +35,15 @@ app.use((req, res, next) => {
 
 
   // on utilise la méthode post pour intercepter les requêtes post
+  //Ici, on créé une instance de notre modèle Sauce en lui passant un objet JavaScript contenant toutes les informations requises du corps de requête analysé (en ayant supprimé en amont le faux_id envoyé par le front-end).
   app.post('/api/stuff', (req, res, next) => {
-    console.log(req.body);
-    res.status(201).json({ // on utilise 201 pour création de ressource
-      message: 'Objet créé !'
+    delete req.body._id;
+    const sauce = new Sauce({
+      ...req.body
     });
+    sauce.save()
+      .then(() => res.status(201).json({ message: 'Sauce enregistrée !'}))
+      .catch(error => res.status(400).json({ error }));
   });
 
   // on utilise la méthode get pour préciser que nous ne voulons que les requêtes get
