@@ -4,11 +4,12 @@
   "description": "Projet numéro 6 du parcours dev web jr de l'organisme OpenClassrooms",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Dread92/P6-OC-HotTakes"
+    "url": "git+https://github.com/Dread92/P6-OC-HotTakes.git"
   },
   "author": "Guillaume B",
   "license": "ISC",
@@ -21,5 +22,6 @@
     "express": "^4.18.2",
     "mongoose": "^7.1.0",
     "nodemon": "^2.0.22"
-  }
+  },
+  "devDependencies": {}
 }
