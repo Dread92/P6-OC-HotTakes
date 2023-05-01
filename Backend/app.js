@@ -46,26 +46,21 @@ app.use((req, res, next) => {
       .catch(error => res.status(400).json({ error }));
   });
 
-  // on utilise la méthode get pour préciser que nous ne voulons que les requêtes get
+  /*nous utilisons la méthode get() pour répondre uniquement aux demandes GET à cet endpoint ;
+nous utilisons deux-points : en face du segment dynamique de la route pour la rendre accessible en tant que paramètre ;
+nous utilisons ensuite la méthode findOne() dans notre modèle Sauce pour trouver le Sauce unique ayant le même _id que le paramètre de la requête ;
+ce Thing est ensuite retourné dans une Promise et envoyé au front-end ;
+si aucune Sauce n'est trouvée ou si une erreur se produit, nous envoyons une erreur 404 au front-end, avec l'erreur générée.*/
+  app.get('/api/stuff/:id', (req, res, next) => {
+    Sauce.findOne({ _id: req.params.id })
+      .then(sauce => res.status(200).json(sauce))
+      .catch(error => res.status(404).json({ error }));
+  });
+
+  // nous utilisons la méthode find() dans notre modèle Mongoose afin de renvoyer un tableau contenant tous les "sauces" dans notre base de données
   app.get('/api/stuff', (req, res, next) => {
-    const stuff = [
-      {
-        _id: 'oeihfzeoi',
-        title: 'Mon premier objet',
-        description: 'Les infos de mon premier objet',
-        imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
-        price: 4900,
-        userId: 'qsomihvqios',
-      },
-      {
-        _id: 'oeihfzeomoihi',
-        title: 'Mon deuxième objet',
-        description: 'Les infos de mon deuxième objet',
-        imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
-        price: 2900,
-        userId: 'qsomihvqios',
-      },
-    ];
-    res.status(200).json(stuff);
+    Sauce.find()
+      .then(sauces => res.status(200).json(sauces))
+      .catch(error => res.status(400).json({ error }));
   });
 
