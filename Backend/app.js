@@ -35,6 +35,6 @@ app.use((req, res, next) => {
   });
 
 
-app.use('/api/stuff', sauceRoutes);
+app.use('/api/sauces', sauceRoutes);
   
 app.use('/api/auth', userRoutes);

@@ -1,6 +1,6 @@
 const User = require ('../models/User');
 const jwt = require('jsonwebtoken');
-
+const bcrypt = require('bcrypt');
 // fonction pour enregistrer un nouvel utilisateur
 /*nous appelons la fonction de hachage de bcrypt dans notre mot de passe et lui demandons de « saler » le mot de passe 10 fois. 
 Plus la valeur est élevée, plus l'exécution de la fonction sera longue, et plus le hachage sera sécurisé*/
