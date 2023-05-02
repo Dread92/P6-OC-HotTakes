@@ -6,6 +6,7 @@ const mongoose = require('mongoose'); // on installe mongoose pour notre base de
 app.use(express.json());
 require('dotenv').config();
 const Sauce = require('./models/Sauce.js');
+const sauceRoutes = require('./routes/assaisonnement');
 
 //Connexion à MongoDB
 const password= process.env.DB_PASSWORD // on passe le password présent dans env pour éviter qu'il soit visible
@@ -16,8 +17,6 @@ mongoose.connect(`mongodb+srv://${username}:${password}@${databasename}/?retryWr
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
-
-
 
 
 
@@ -34,33 +33,4 @@ app.use((req, res, next) => {
   });
 
 
-  // on utilise la méthode post pour intercepter les requêtes post
-  //Ici, on créé une instance de notre modèle Sauce en lui passant un objet JavaScript contenant toutes les informations requises du corps de requête analysé (en ayant supprimé en amont le faux_id envoyé par le front-end).
-  app.post('/api/stuff', (req, res, next) => {
-    delete req.body._id;
-    const sauce = new Sauce({
-      ...req.body
-    });
-    sauce.save()
-      .then(() => res.status(201).json({ message: 'Sauce enregistrée !'}))
-      .catch(error => res.status(400).json({ error }));
-  });
-
-  /*nous utilisons la méthode get() pour répondre uniquement aux demandes GET à cet endpoint ;
-nous utilisons deux-points : en face du segment dynamique de la route pour la rendre accessible en tant que paramètre ;
-nous utilisons ensuite la méthode findOne() dans notre modèle Sauce pour trouver le Sauce unique ayant le même _id que le paramètre de la requête ;
-ce Thing est ensuite retourné dans une Promise et envoyé au front-end ;
-si aucune Sauce n'est trouvée ou si une erreur se produit, nous envoyons une erreur 404 au front-end, avec l'erreur générée.*/
-  app.get('/api/stuff/:id', (req, res, next) => {
-    Sauce.findOne({ _id: req.params.id })
-      .then(sauce => res.status(200).json(sauce))
-      .catch(error => res.status(404).json({ error }));
-  });
-
-  // nous utilisons la méthode find() dans notre modèle Mongoose afin de renvoyer un tableau contenant tous les "sauces" dans notre base de données
-  app.get('/api/stuff', (req, res, next) => {
-    Sauce.find()
-      .then(sauces => res.status(200).json(sauces))
-      .catch(error => res.status(400).json({ error }));
-  });
-
+  app.use('/api/stuff', sauceRoutes);

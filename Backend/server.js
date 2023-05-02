@@ -45,7 +45,7 @@ const errorHandler = error => {
 // on passe à notre fonction serveur la constante app (depuis fichier app.js) que nous avons exporter
 const server = http.createServer(app);
 
-server.on('error', errorHandler);
+server.on('error', errorHandler); 
 server.on('listening', () => {
   const address = server.address();
   const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
