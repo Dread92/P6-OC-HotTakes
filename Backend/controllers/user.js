@@ -1,4 +1,5 @@
 const User = require ('../models/User');
+const jwt = require('jsonwebtoken');
 
 // fonction pour enregistrer un nouvel utilisateur
 /*nous appelons la fonction de hachage de bcrypt dans notre mot de passe et lui demandons de « saler » le mot de passe 10 fois. 
@@ -39,7 +40,10 @@ exports.login = (req, res, next) => {
                     Dans ce cas, nous renvoyons une réponse 200 contenant l'ID utilisateur et un token*/
                     res.status(200).json({
                         userId: user._id,
-                        token: 'TOKEN'
+                        token: jwt.sign(
+                            { userId: user._id },
+                            'RANDOM_TOKEN_SECRET',
+                            { expiresIn: '24h' })
                     });
                 })
                 .catch(error => res.status(500).json({ error }));
