@@ -3,14 +3,14 @@ const router = express.Router(); // La méthode express.Router()  nous permet de
 const Sauce = require('../models/Sauce');
 const sauceCtrl = require('../controllers/assaisonnement.js');
 const auth = require('../middleware/auth');
-
+const multer= require('../middleware/multer-config');
 // On exporte notre "router" pour qu'il soit utilisé autre part
 module.exports = router;
 
 // Middlewares//
   // on utilise la méthode post pour intercepter les requêtes post
   //Ici, on créé une instance de notre modèle Sauce en lui passant un objet JavaScript contenant toutes les informations requises du corps de requête analysé (en ayant supprimé en amont le faux_id envoyé par le front-end).
-  router.post('/',auth, sauceCtrl.createSauce );
+  router.post('/',auth,multer, sauceCtrl.createSauce );
 
   /*Nous exploitons la méthode updateOne() dans notre modèle Sauce .
    Cela nous permet de mettre à jour le Sauce qui correspond à l'objet que nous passons comme premier argument.
