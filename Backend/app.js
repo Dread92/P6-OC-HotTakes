@@ -8,6 +8,7 @@ require('dotenv').config();
 const Sauce = require('./models/Sauce.js');
 const sauceRoutes = require('./routes/assaisonnement');
 const userRoutes = require('./routes/user');
+const bodyParser = require("body-parser");
 
 
 //Connexion à MongoDB
@@ -33,7 +34,8 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
   });
-
+  
+app.use(bodyParser.json());
 
 app.use('/api/sauces', sauceRoutes);
   
