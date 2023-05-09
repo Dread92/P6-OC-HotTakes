@@ -3,6 +3,7 @@
 
 
 const Sauce = require('../models/Sauce');
+const fs = require('fs');
 
 /*
 exports.createSauce = (req, res, next) => {
@@ -30,7 +31,7 @@ exports.createSauce = (req, res, next) => {
 };*/
 
 exports.createSauce = (req, res, next) => {
-  const sauceObject = JSON.parse(req.body.thing);
+  const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
   delete sauceObject._userId;
   const sauce = new Sauce({
@@ -47,7 +48,7 @@ exports.createSauce = (req, res, next) => {
 
 exports.modifySauce = (req, res, next) => {
   const sauceObject = req.file ? {
-      ...JSON.parse(req.body.thing),
+      ...JSON.parse(req.body.sauce),
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   } : { ...req.body };
 
@@ -57,7 +58,7 @@ exports.modifySauce = (req, res, next) => {
           if (sauce.userId != req.auth.userId) {
               res.status(401).json({ message : 'Not authorized'});
           } else {
-              Sauce.updateOne({ _id: req.params.id}, { ...thingObject, _id: req.params.id})
+              Sauce.updateOne({ _id: req.params.id}, { ...sauceObject, _id: req.params.id})
               .then(() => res.status(200).json({message : 'Sauce modifiée!'}))
               .catch(error => res.status(401).json({ error }));
           }
@@ -68,11 +69,24 @@ exports.modifySauce = (req, res, next) => {
 };
 
 
-  exports.deleteSauce =  (req, res, next) => {
-    Sauce.deleteOne({ _id: req.params.id })
-      .then(() => res.status(200).json({ message: 'Sauce supprimée !'}))
-      .catch(error => res.status(400).json({ error }));
-  };
+exports.deleteSauce = (req, res, next) => {
+  Sauce.findOne({ _id: req.params.id})
+      .then(sauce => {
+          if (sauce.userId != req.auth.userId) {
+              res.status(401).json({message: 'Not authorized'});
+          } else {
+              const filename = sauce.imageUrl.split('/images/')[1];
+              fs.unlink(`images/${filename}`, () => {
+                  Sauce.deleteOne({_id: req.params.id})
+                      .then(() => { res.status(200).json({message: 'Objet supprimé !'})})
+                      .catch(error => res.status(401).json({ error }));
+              });
+          }
+      })
+      .catch( error => {
+          res.status(500).json({ error });
+      });
+};
 
 
   exports.getOneSauce = (req, res, next) => {
@@ -87,3 +101,35 @@ exports.modifySauce = (req, res, next) => {
       .catch(error => res.status(400).json({ error }));
   };
 
+
+
+  exports.likeSauce = (req, res, next) => {    
+    const like = req.body.like;
+    if(like === 1) { // bouton j'aime
+        Sauce.updateOne({_id: req.params.id}, { $inc: { likes: 1}, $push: { usersLiked: req.body.userId}, _id: req.params.id })
+        .then( () => res.status(200).json({ message: 'Vous aimez cette sauce' }))
+        .catch( error => res.status(400).json({ error}))
+
+    } else if(like === -1) { // bouton je n'aime pas
+        Sauce.updateOne({_id: req.params.id}, { $inc: { dislikes: 1}, $push: { usersDisliked: req.body.userId}, _id: req.params.id })
+        .then( () => res.status(200).json({ message: 'Vous n’aimez pas cette sauce' }))
+        .catch( error => res.status(400).json({ error}))
+
+    } else {    // annulation du bouton j'aime ou alors je n'aime pas
+        Sauce.findOne( {_id: req.params.id})
+        .then( sauce => {
+            if( sauce.usersLiked.indexOf(req.body.userId)!== -1){
+                 Sauce.updateOne({_id: req.params.id}, { $inc: { likes: -1},$pull: { usersLiked: req.body.userId}, _id: req.params.id })
+                .then( () => res.status(200).json({ message: 'Vous n’aimez plus cette sauce' }))
+                .catch( error => res.status(400).json({ error}))
+                }
+                
+            else if( sauce.usersDisliked.indexOf(req.body.userId)!== -1) {
+                Sauce.updateOne( {_id: req.params.id}, { $inc: { dislikes: -1 }, $pull: { usersDisliked: req.body.userId}, _id: req.params.id})
+                .then( () => res.status(200).json({ message: 'Vous aimerez peut-être cette sauce à nouveau' }))
+                .catch( error => res.status(400).json({ error}))
+                }           
+        })
+        .catch( error => res.status(400).json({ error}))             
+    }   
+};

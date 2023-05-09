@@ -31,3 +31,5 @@ si aucune Sauce n'est trouvée ou si une erreur se produit, nous envoyons une er
   // nous utilisons la méthode find() dans notre modèle Mongoose afin de renvoyer un tableau contenant tous les "sauces" dans notre base de données
   router.get('/', auth,sauceCtrl.getAllSauce );
 
+
+  router.post('/:id/like', auth, sauceCtrl.likeSauce);
