@@ -9,7 +9,7 @@ const Sauce = require('./models/Sauce.js');
 const sauceRoutes = require('./routes/assaisonnement');
 const userRoutes = require('./routes/user');
 const bodyParser = require("body-parser");
-
+const path = require('path');
 
 //Connexion à MongoDB
 const password= process.env.DB_PASSWORD // on passe le password présent dans env pour éviter qu'il soit visible
@@ -40,3 +40,5 @@ app.use(bodyParser.json());
 app.use('/api/sauces', sauceRoutes);
   
 app.use('/api/auth', userRoutes);
+
+app.use('/images', express.static(path.join(__dirname, 'images')));

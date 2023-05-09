@@ -15,7 +15,7 @@ module.exports = router;
   /*Nous exploitons la méthode updateOne() dans notre modèle Sauce .
    Cela nous permet de mettre à jour le Sauce qui correspond à l'objet que nous passons comme premier argument.
     Nous utilisons aussi le paramètre id passé dans la demande, et le remplaçons par le Sauce passé comme second argument.*/
-  router.put('/:id',auth, sauceCtrl.modifySauce );
+  router.put('/:id',auth,multer, sauceCtrl.modifySauce );
 
 /*La méthode deleteOne() de notre modèle fonctionne comme findOne() et updateOne() dans le sens où nous lui passons un objet correspondant au document à supprimer.
  Nous envoyons ensuite une réponse de réussite ou d'échec au front-end. */
