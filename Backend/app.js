@@ -23,10 +23,6 @@ mongoose.connect(`mongodb+srv://${username}:${password}@${databasename}/?retryWr
 
 
 
-
-
-//Middlewares// 
-
 // header qui va permettre d'accéder à notre API depuis n'importe quelle origine ( '*' ) ;
 //d'ajouter les headers mentionnés aux requêtes envoyées vers notre API (Origin , X-Requested-With , etc.) ;
 //d'envoyer des requêtes avec les méthodes mentionnées ( GET ,POST , etc.).
@@ -39,10 +35,7 @@ app.use((req, res, next) => {
 
 
   
-app.use(bodyParser.json());
-
+app.use(bodyParser.json());//Ce middleware permet de traiter les données JSON envoyées dans le corps des requêtes. Il analyse le corps de la requête et le transforme en objet JavaScript exploitable
 app.use('/api/sauces', sauceRoutes);
-  
 app.use('/api/auth', userRoutes);
-
 app.use('/images', express.static(path.join(__dirname, 'images')));
