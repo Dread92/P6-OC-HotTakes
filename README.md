@@ -7,30 +7,30 @@ Les principales technologies utilisées sont Node.js, MongoDB et Express.
 
 Principales features:
 
-x CRUD (Create, Read, Update, Delete)
-x Authentication
-x Routes
-x Gestion de fichiers avec multer et fs
-x Base de données MongoDB
+CRUD (Create, Read, Update, Delete)
+Authentication
+Routes
+Gestion de fichiers avec multer et fs
+Base de données MongoDB
 
 Technologies utilisées:
-x Javascript
-x Node.js
-x Express.js
-x MongoDB
+Javascript
+Node.js
+Express.js
+MongoDB
 
 Client frontend:(fourni avec l'énoncé)
-x HTML
-x Sass / Scss
-x Typescript / Javascript
-x Angular
+HTML
+Sass / Scss
+Typescript / Javascript
+Angular
 
 
 // Installation //
 Pour installer le serveur, veuillez installer:
 
 -Node.js
--npm install pour les dépendances (  
+-npm install pour les dépendances   
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "dotenv": "^16.0.3",
