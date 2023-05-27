@@ -44,7 +44,8 @@ Pour installer le serveur, veuillez installer:
 
 Effectuez un git bash depuis le dossier frontend puis entrez "npm run start"
 
-Ensuite, depuis le backend, entrez " nodemon run"
+Ensuite, depuis le backend, entrez " nodemon run".
+Sur le navigateur, se rendre sur http://localhost:4200/signup.
 
 
 
