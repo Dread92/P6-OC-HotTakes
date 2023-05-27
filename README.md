@@ -31,16 +31,16 @@ Pour installer le serveur, veuillez installer:
 
 -Node.js
 -npm install pour les dépendances   
-    "bcrypt": "^5.1.0",
-    "body-parser": "^1.20.2",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.0",
-    "mongoose": "^7.1.1",
-    "mongoose-unique-validator": "^4.0.0",
-    "multer": "^1.4.5-lts.1",
-    "path": "^0.12.7")
-    "nodemon": "^2.0.22"
+    "bcrypt"
+    "body-parser"
+    "dotenv"
+    "express"
+    "jsonwebtoken"
+    "mongoose"
+    "mongoose-unique-validator"
+    "multer"
+    "path"
+    "nodemon"
 
 Effectuez un git bash depuis le dossier frontend puis entrez "npm run start"
 
